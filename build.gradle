@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven{ url 'https://m2.dv8tion.net/releases'}
+    maven{ url 'https://jitpack.io'}
+
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation "com.github.Xirado:JDA:feature~modals"
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
+    implementation"io.github.bonigarcia:webdrivermanager:5.1.0"
+    implementation 'mysql:mysql-connector-java:8.0.28'
+}
+
+test {
+    useJUnitPlatform()
+}
+jar {
+    manifest {
+        attributes 'Main-Class': 'bullshitPackage.main'
+    }
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+}
