@@ -4,9 +4,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.SelectMenuInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.selections.SelectMenu;
 import net.dv8tion.jda.api.interactions.components.text.Modal;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
@@ -56,25 +58,78 @@ public class Commands extends ListenerAdapter {
             event.getChannel().sendMessage("https://tenor.com/view/asian-all-clear-gaped-tooth-thumbs-up-gif-10075950").queue();
         }
         if(event.getName().equals("signup")){
-            TextInput name = TextInput.create("name", "Name", TextInputStyle.SHORT)
-                    .setPlaceholder("Enter your Name")
-                    .setRequired(true)
-                    .setMinLength(10)
-                    .setMaxLength(100) // or setRequiredRange(10, 100)
+            // bring up the select menu
+            SelectMenu menu = SelectMenu.create("menu:class")
+                    .setPlaceholder("Choose one option.")
+                    .setRequiredRange(1, 1)
+                    .addOption("Filling out for Self", "self")
+                    .addOption("Filling out for Other", "other")
                     .build();
 
-            TextInput email = TextInput.create("email", "Email", TextInputStyle.SHORT)
-                    .setPlaceholder("Enter your Email")
-                    .setRequired(true)
-                    .setMinLength(10)
-                    .setMaxLength(100)
-                    .build();
+            event.reply("Please pick your answer!")
+                    .setEphemeral(true)
+                    .addActionRow(menu)
+                    .queue();
+        }
+    }
 
-            Modal modal = Modal.create("addUser", "Sign up for the Form!")
-                    .addActionRows(ActionRow.of(name), ActionRow.of(email))
-                    .build();
+    @Override
+    public void onSelectMenuInteraction(@NotNull SelectMenuInteractionEvent event) {
+        if(event.getComponentId().equals("menu:class")){
+            //adding yourself
+            if(event.getSelectedOptions().get(0).getValue().equals("self")){
+                TextInput name = TextInput.create("name", "Name", TextInputStyle.SHORT)
+                        .setPlaceholder("Enter your Name")
+                        .setRequired(true)
+                        .setMinLength(10)
+                        .setMaxLength(100)
+                        .build();
 
-            event.replyModal(modal).queue();
+                TextInput email = TextInput.create("email", "Email", TextInputStyle.SHORT)
+                        .setPlaceholder("Enter your Email")
+                        .setRequired(true)
+                        .setMinLength(10)
+                        .setMaxLength(100)
+                        .build();
+
+
+
+                Modal modal = Modal.create("addSelf", "Sign up for the Form!")
+                        .addActionRows(ActionRow.of(name), ActionRow.of(email))
+                        .build();
+
+                event.replyModal(modal).queue();
+            }
+            //adding another user
+            if(event.getSelectedOptions().get(0).getValue().equals("other")){
+                TextInput name = TextInput.create("name", "Name", TextInputStyle.SHORT)
+                        .setPlaceholder("Enter your Name")
+                        .setRequired(true)
+                        .setMinLength(10)
+                        .setMaxLength(100)
+                        .build();
+
+                TextInput email = TextInput.create("email", "Email", TextInputStyle.SHORT)
+                        .setPlaceholder("Enter your Email")
+                        .setRequired(true)
+                        .setMinLength(10)
+                        .setMaxLength(100)
+                        .build();
+
+                TextInput discordID = TextInput.create("discordID", "DiscordID of user", TextInputStyle.SHORT)
+                        .setPlaceholder("Enter Users discordID")
+                        .setRequired(true)
+                        .setMinLength(10)
+                        .setMaxLength(100)
+                        .build();
+
+
+                Modal modal = Modal.create("addOther", "Add Another User To The Database!")
+                        .addActionRows(ActionRow.of(name), ActionRow.of(email), ActionRow.of(discordID))
+                        .build();
+
+                event.replyModal(modal).queue();
+            }
         }
     }
 
@@ -113,25 +168,17 @@ public class Commands extends ListenerAdapter {
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
 
         if (event.getComponentId().equals("addUser")) {
-            TextInput name = TextInput.create("name", "Name", TextInputStyle.SHORT)
-                    .setPlaceholder("Enter your Name")
-                    .setRequired(true)
-                    .setMinLength(10)
-                    .setMaxLength(100) // or setRequiredRange(10, 100)
+            SelectMenu menu = SelectMenu.create("menu:class")
+                    .setPlaceholder("Choose one option.")
+                    .setRequiredRange(1, 1)
+                    .addOption("Filling out for Self", "self")
+                    .addOption("Filling out for Other", "other")
                     .build();
 
-            TextInput email = TextInput.create("email", "Email", TextInputStyle.SHORT)
-                    .setPlaceholder("Enter your Email")
-                    .setRequired(true)
-                    .setMinLength(10)
-                    .setMaxLength(100)
-                    .build();
-
-            Modal modal = Modal.create("addUser", "Sign up for the Form!")
-                    .addActionRows(ActionRow.of(name), ActionRow.of(email))
-                    .build();
-
-            event.replyModal(modal).queue();
+            event.reply("Please pick your answer!")
+                    .setEphemeral(true)
+                    .addActionRow(menu)
+                    .queue();
         }
         if (event.getComponentId().equals("removeUser")) {
             String discordID = event.getUser().getId();
@@ -169,11 +216,48 @@ public class Commands extends ListenerAdapter {
 
     @Override
     public void onModalInteraction(@NotNull ModalInteractionEvent event) {
-        if (event.getModalId().equals("addUser")) {
+        if (event.getModalId().equals("addSelf")) {
             //grabbing tha data bitch
             String name = event.getValue("name").getAsString();
             String email = event.getValue("email").getAsString();
             String discordID = event.getUser().getId();
+
+            //sql shit
+            Connection conn = null;
+            PreparedStatement ptmt = null;
+            try {
+                conn = DriverManager
+                        .getConnection("jdbc:mysql://sql448.main-hosting.eu/u816645365_discordBot",
+                                "u816645365_OutsideToday",
+                                "Evopansy2*");
+                System.out.println("connected to db");
+
+                String query = "INSERT INTO classmates(discordID,name,email) VALUES(?,?,?)";
+
+                ptmt = conn.prepareStatement(query);
+
+                ptmt.setString(1, discordID);
+                ptmt.setString(2, name);
+                ptmt.setString(3, email);
+
+                ptmt.executeUpdate();
+
+                ptmt.close();
+                conn.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            //reply wehn done
+            event.reply("\nSuccessfully added!\n" + name).setEphemeral(false).queue();
+
+        }
+        if (event.getModalId().equals("addOther")) {
+            //grabbing tha data bitch
+            String name = event.getValue("name").getAsString();
+            String email = event.getValue("email").getAsString();
+            String discordID = event.getValue("discordID").getAsString();
 
             //sql shit
             Connection conn = null;
