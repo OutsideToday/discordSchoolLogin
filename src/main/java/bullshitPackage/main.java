@@ -116,7 +116,7 @@ public class main {
 
             if (submitBoolean == true) {
                 //submit the form
-                //submitButton.click();
+                submitButton.click();
             }
 
             System.out.println("SUBMITTED FOR " + names.get(i));
@@ -127,20 +127,22 @@ public class main {
         }
         //output to defined text chanel
         if (submitBoolean == true) {
-            /*
+
             tableChannel = api.getTextChannelById(classChannel);
             tableChannel.sendMessageEmbeds(embedBuilder.build())
                     .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
                     .queue();
-            */
+
             tableChannel = api.getTextChannelById(class2Channel);
             tableChannel.sendMessageEmbeds(embedBuilder.build())
                     .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
                     .queue();
         } else if (submitBoolean == false) {
             tableChannel = api.getTextChannelById(testChannel);
+            tableChannel.sendMessageEmbeds(embedBuilder.build())
+                    .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
+                    .queue();
         }
-
 
         driver.quit();
     }
