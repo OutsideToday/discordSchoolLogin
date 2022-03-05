@@ -3,10 +3,12 @@ package bullshitPackage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -59,7 +61,7 @@ public class main {
             pStatement = connection.prepareStatement(SELECT_SQL);
             resultSet = pStatement.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
 
 
                 String name = resultSet.getString("name");
@@ -77,7 +79,6 @@ public class main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
 
         //chroime driver shit
@@ -105,17 +106,17 @@ public class main {
             WebElement submitButton = driver.findElement(By.xpath("/html/body/div/div/div/div/div[1]/div/div[1]/div[2]/div[3]/div[1]/button"));
 
             noButton.click();
-            Thread.sleep((long) (Math.random()*1000));
+            Thread.sleep((long) (Math.random() * 1000));
 
             emailBox.click();
             emailBox.clear();
             emailBox.sendKeys(emails.get(i));
-            Thread.sleep((long) (Math.random()*1000));
+            Thread.sleep((long) (Math.random() * 1000));
 
 
-
-            if(submitBoolean == true){
-                //submitButton.click(); //submit the form
+            if (submitBoolean == true) {
+                //submit the form
+                //submitButton.click();
             }
 
             System.out.println("SUBMITTED FOR " + names.get(i));
@@ -125,28 +126,30 @@ public class main {
             driver.navigate().refresh();
         }
         //output to defined text chanel
-        if(submitBoolean == true) {
-           // tableChannel = api.getTextChannelById(classChannel);
-           // tableChannel.sendMessageEmbeds(embedBuilder.build())
-           //         .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
-            //        .queue();
-
+        if (submitBoolean == true) {
+            /*
+            tableChannel = api.getTextChannelById(classChannel);
+            tableChannel.sendMessageEmbeds(embedBuilder.build())
+                    .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
+                    .queue();
+            */
             tableChannel = api.getTextChannelById(class2Channel);
             tableChannel.sendMessageEmbeds(embedBuilder.build())
                     .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
                     .queue();
-        }else if(submitBoolean == false){
+        } else if (submitBoolean == false) {
             tableChannel = api.getTextChannelById(testChannel);
         }
 
 
         driver.quit();
     }
-    static class getSleepTime implements Runnable{
+
+    static class getSleepTime implements Runnable {
 
         @Override
         public void run() {
-            while(true) {
+            while (true) {
                 // get current time
                 Calendar targetCal = Calendar.getInstance(TimeZone.getTimeZone("CST"));
 
@@ -194,7 +197,8 @@ public class main {
             }
         }
     }
-    public static void main(String[] args) throws LoginException, InterruptedException{
+
+    public static void main(String[] args) throws LoginException, InterruptedException {
         final String TOKEN = "ODY4MzQ5NTU3NDg0OTc4MTk2.YPuXiw.MZ0JWO5gY7oodIhI8ZjoXWAD0gU";
 
         api = JDABuilder.createDefault(TOKEN).build();
