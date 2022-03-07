@@ -36,7 +36,7 @@ public class main {
     static TextChannel tableChannel;
 
     /*-- CHANGE ME --*/
-    static int hour = 8;
+    static int hour = 7;
     static int minute = 20;
     static boolean submitBoolean = true;
 
