@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class main {
+    // hello jahiem
     static JDA api;
     public static String prefix = ">";
 
@@ -37,7 +38,7 @@ public class main {
 
     /*-- CHANGE ME --*/
     static int hour = 7;
-    static int minute = 20;
+    static int minute = 10;
     static boolean submitBoolean = true;
 
 
