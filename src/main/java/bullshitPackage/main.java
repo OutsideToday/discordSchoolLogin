@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.JDABuilder;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
+import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -13,6 +14,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -201,7 +204,18 @@ public class main {
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-        final String TOKEN = "ODY4MzQ5NTU3NDg0OTc4MTk2.YPuXiw.MZ0JWO5gY7oodIhI8ZjoXWAD0gU";
+
+        JSONParser parser = new JSONParser();
+        String botToken = null;
+        try{
+            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/hideMe.json"));
+            JSONObject jsonObject = (JSONObject) obj;
+            botToken = (String) jsonObject.get("token");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        final String TOKEN = botToken;
 
         api = JDABuilder.createDefault(TOKEN).build();
 

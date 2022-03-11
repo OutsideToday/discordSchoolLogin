@@ -13,8 +13,11 @@ import net.dv8tion.jda.api.interactions.components.text.Modal;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 import org.jetbrains.annotations.NotNull;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import java.awt.*;
+import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,9 +28,10 @@ import java.util.TimeZone;
 
 public class Commands extends ListenerAdapter {
 
+
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        if(event.getName().equals("bleach")){
+        if (event.getName().equals("bleach")) {
             String gifs[] = new String[15];
             gifs[0] = "https://tenor.com/view/cant-unsee-how-to-unsee-blind-homer-simpson-simpsons-gif-17613101";
             gifs[1] = "https://tenor.com/view/must-unsee-spongebob-washing-eyes-cant-look-gif-14237119";
@@ -45,8 +49,12 @@ public class Commands extends ListenerAdapter {
             gifs[14] = "https://tenor.com/view/cleaning-windshield-wiping-squeegee-clear-view-gif-13959606";
 
             event.reply("cleaning coming :)").queue();
-
-            for(int i = 0; i != 4; i++){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (int i = 0; i != 4; i++) {
                 event.getChannel().sendMessage(gifs[(int) (Math.random() * 15)]).queue();
                 try {
                     Thread.sleep(500);
@@ -57,7 +65,7 @@ public class Commands extends ListenerAdapter {
 
             event.getChannel().sendMessage("https://tenor.com/view/asian-all-clear-gaped-tooth-thumbs-up-gif-10075950").queue();
         }
-        if(event.getName().equals("signup")){
+        if (event.getName().equals("signup")) {
             // bring up the select menu
             SelectMenu menu = SelectMenu.create("menu:class")
                     .setPlaceholder("Choose one option.")
@@ -75,9 +83,9 @@ public class Commands extends ListenerAdapter {
 
     @Override
     public void onSelectMenuInteraction(@NotNull SelectMenuInteractionEvent event) {
-        if(event.getComponentId().equals("menu:class")){
+        if (event.getComponentId().equals("menu:class")) {
             //adding yourself
-            if(event.getSelectedOptions().get(0).getValue().equals("self")){
+            if (event.getSelectedOptions().get(0).getValue().equals("self")) {
                 TextInput name = TextInput.create("name", "Name", TextInputStyle.SHORT)
                         .setPlaceholder("Enter your Name")
                         .setRequired(true)
@@ -93,7 +101,6 @@ public class Commands extends ListenerAdapter {
                         .build();
 
 
-
                 Modal modal = Modal.create("addSelf", "Sign up for the Form!")
                         .addActionRows(ActionRow.of(name), ActionRow.of(email))
                         .build();
@@ -101,7 +108,7 @@ public class Commands extends ListenerAdapter {
                 event.replyModal(modal).queue();
             }
             //adding another user
-            if(event.getSelectedOptions().get(0).getValue().equals("other")){
+            if (event.getSelectedOptions().get(0).getValue().equals("other")) {
                 TextInput name = TextInput.create("name", "Name", TextInputStyle.SHORT)
                         .setPlaceholder("Enter your Name")
                         .setRequired(true)
@@ -148,8 +155,8 @@ public class Commands extends ListenerAdapter {
                     "can be credited to <@171086994099798016> !", false);
             infoEmbed.addField("Commands",
                     "Currently\n" +
-                    "/bleach\n" +
-                    "/signup", false);
+                            "/bleach\n" +
+                            "/signup", false);
 
             event.getChannel().sendMessageEmbeds(infoEmbed.build()).queue();
         }
@@ -187,10 +194,7 @@ public class Commands extends ListenerAdapter {
             Connection conn = null;
             PreparedStatement ptmt = null;
             try {
-                conn = DriverManager
-                        .getConnection("jdbc:mysql://sql448.main-hosting.eu/u816645365_discordBot",
-                                "u816645365_OutsideToday",
-                                "Evopansy2*");
+                conn = doConnection();
                 System.out.println("connected to db");
 
                 String query = "DELETE FROM classmates WHERE (discordID) = ?";
@@ -226,10 +230,8 @@ public class Commands extends ListenerAdapter {
             Connection conn = null;
             PreparedStatement ptmt = null;
             try {
-                conn = DriverManager
-                        .getConnection("jdbc:mysql://sql448.main-hosting.eu/u816645365_discordBot",
-                                "u816645365_OutsideToday",
-                                "Evopansy2*");
+                conn = doConnection();
+
                 System.out.println("connected to db");
 
                 String query = "INSERT INTO classmates(discordID,name,email) VALUES(?,?,?)";
@@ -263,10 +265,8 @@ public class Commands extends ListenerAdapter {
             Connection conn = null;
             PreparedStatement ptmt = null;
             try {
-                conn = DriverManager
-                        .getConnection("jdbc:mysql://sql448.main-hosting.eu/u816645365_discordBot",
-                                "u816645365_OutsideToday",
-                                "Evopansy2*");
+                conn = doConnection();
+
                 System.out.println("connected to db");
 
                 String query = "INSERT INTO classmates(discordID,name,email) VALUES(?,?,?)";
@@ -292,5 +292,33 @@ public class Commands extends ListenerAdapter {
         }
     }
 
+    private Connection doConnection() {
+        // grabbing da credentials
+        JSONParser parser = new JSONParser();
+        String url = null;
+        String password = null;
+        String username = null;
+        try{
+            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/hideMe.json"));
+            JSONObject jsonObject = (JSONObject) obj;
+            url = (String) jsonObject.get("dbUrl");
+            password = (String) jsonObject.get("dbPassword");
+            username = (String) jsonObject.get("dbUsername");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //sql connect
+        Connection conn = null;
+
+        try {
+            conn = DriverManager
+                    .getConnection(url, username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
 
 }
