@@ -4,4 +4,4 @@
 /build/classes/java/main/
 /out/
 
-/src/main/java/bullshitPackage/hideMe.json
+src/main/java/bullshitPackage/hideMe.json

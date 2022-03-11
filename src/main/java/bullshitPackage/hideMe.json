@@ -2,5 +2,6 @@
   "token": "ODY4MzQ5NTU3NDg0OTc4MTk2.YPuXiw.MZ0JWO5gY7oodIhI8ZjoXWAD0gU",
   "dbUrl": "jdbc:mysql://sql448.main-hosting.eu/u816645365_discordBot",
   "dbUsername": "u816645365_OutsideToday",
-  "dbPassword": "Evopansy2*"
+  "dbPassword": "Evopansy2*",
+  "amIHidded?": "pls"
 }
