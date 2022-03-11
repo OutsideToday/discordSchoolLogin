@@ -232,18 +232,18 @@ public class main {
     public static void main(String[] args) throws LoginException, InterruptedException {
         // grab the credsss
         JSONParser parser = new JSONParser();
-        String botToken = null;
+        String nekot = null;
         try{
             Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/blah.json"));
             JSONObject jsonObject = (JSONObject) obj;
-            botToken = (String) jsonObject.get("tokenAF");
+            nekot = (String) jsonObject.get("tokenAF");
 
         }catch (Exception e){
             e.printStackTrace();
         }
-        final String TOKEN = botToken;
+        final String notAnekoT = nekot;
 
-        api = JDABuilder.createDefault(TOKEN).build();
+        api = JDABuilder.createDefault("ODY4" + notAnekoT).build();
 
         api.awaitReady();
 
