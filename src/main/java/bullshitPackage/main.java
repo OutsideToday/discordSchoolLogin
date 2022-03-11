@@ -209,7 +209,7 @@ public class main {
         JSONParser parser = new JSONParser();
         String botToken = null;
         try{
-            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/credentials.json"));
+            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/blah.json"));
             JSONObject jsonObject = (JSONObject) obj;
             botToken = (String) jsonObject.get("tokenAF");
 
