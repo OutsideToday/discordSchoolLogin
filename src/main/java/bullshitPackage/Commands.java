@@ -110,21 +110,21 @@ public class Commands extends ListenerAdapter {
             //adding another user
             if (event.getSelectedOptions().get(0).getValue().equals("other")) {
                 TextInput name = TextInput.create("name", "Name", TextInputStyle.SHORT)
-                        .setPlaceholder("Enter your Name")
+                        .setPlaceholder("Enter your classmates Name")
                         .setRequired(true)
                         .setMinLength(10)
                         .setMaxLength(100)
                         .build();
 
                 TextInput email = TextInput.create("email", "Email", TextInputStyle.SHORT)
-                        .setPlaceholder("Enter your Email")
+                        .setPlaceholder("Enter your classmates Email")
                         .setRequired(true)
                         .setMinLength(10)
                         .setMaxLength(100)
                         .build();
 
                 TextInput discordID = TextInput.create("discordID", "DiscordID of user", TextInputStyle.SHORT)
-                        .setPlaceholder("Enter Users discordID")
+                        .setPlaceholder("Enter your classmates discordID")
                         .setRequired(true)
                         .setMinLength(10)
                         .setMaxLength(100)
