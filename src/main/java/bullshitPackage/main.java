@@ -43,6 +43,34 @@ public class main {
     static int hour = 7;
     static int minute = 10;
     static boolean submitBoolean = true;
+    private static Connection doConnection() {
+        // grabbing da credentials
+        JSONParser parser = new JSONParser();
+        String url = null;
+        String password = null;
+        String username = null;
+        try{
+            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/blah.json"));
+            JSONObject jsonObject = (JSONObject) obj;
+            url = (String) jsonObject.get("dbUrlAF");
+            password = (String) jsonObject.get("dbPasswordAF");
+            username = (String) jsonObject.get("dbUsernameAF");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //sql connect
+        Connection conn = null;
+
+        try {
+            conn = DriverManager
+                    .getConnection(url, username, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return conn;
+    }
 
 
     public static void fillForm() throws InterruptedException {
@@ -57,10 +85,7 @@ public class main {
         String SELECT_SQL = "SELECT * FROM classmates";
 
         try {
-            connection = DriverManager
-                    .getConnection("jdbc:mysql://sql448.main-hosting.eu/u816645365_discordBot",
-                            "u816645365_OutsideToday",
-                            "Evopansy2*");
+            connection = doConnection();
             System.out.println("connected to db");
             pStatement = connection.prepareStatement(SELECT_SQL);
             resultSet = pStatement.executeQuery();
