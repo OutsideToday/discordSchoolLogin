@@ -204,11 +204,11 @@ public class main {
     }
 
     public static void main(String[] args) throws LoginException, InterruptedException {
-
+        // grab the credsss
         JSONParser parser = new JSONParser();
         String botToken = null;
         try{
-            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/hideMe.json"));
+            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/credentials.json"));
             JSONObject jsonObject = (JSONObject) obj;
             botToken = (String) jsonObject.get("token");
 
