@@ -210,7 +210,7 @@ public class main {
         try{
             Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/credentials.json"));
             JSONObject jsonObject = (JSONObject) obj;
-            botToken = (String) jsonObject.get("token");
+            botToken = (String) jsonObject.get("tokenAF");
 
         }catch (Exception e){
             e.printStackTrace();

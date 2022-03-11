@@ -299,11 +299,11 @@ public class Commands extends ListenerAdapter {
         String password = null;
         String username = null;
         try{
-            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/credentials.json"));
+            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/urMom.json"));
             JSONObject jsonObject = (JSONObject) obj;
-            url = (String) jsonObject.get("dbUrl");
-            password = (String) jsonObject.get("dbPassword");
-            username = (String) jsonObject.get("dbUsername");
+            url = (String) jsonObject.get("dbUrlAF");
+            password = (String) jsonObject.get("dbPasswordAF");
+            username = (String) jsonObject.get("dbUsernameAF");
 
         }catch (Exception e){
             e.printStackTrace();
