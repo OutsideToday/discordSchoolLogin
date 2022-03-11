@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class main {
-    // hello jahiem
+    //hello jaheim
     static JDA api;
     public static String prefix = ">";
 
