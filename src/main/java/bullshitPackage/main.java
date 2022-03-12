@@ -50,7 +50,7 @@ public class main {
         String password = null;
         String username = null;
         try{
-            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/blah.json"));
+            Object obj = parser.parse(new FileReader("C:/blah.json"));
             JSONObject jsonObject = (JSONObject) obj;
             url = (String) jsonObject.get("dbUrlAF");
             password = (String) jsonObject.get("dbPasswordAF");
