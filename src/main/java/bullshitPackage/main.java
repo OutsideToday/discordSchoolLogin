@@ -234,7 +234,7 @@ public class main {
         JSONParser parser = new JSONParser();
         String nekot = null;
         try{
-            Object obj = parser.parse(new FileReader("./src/main/java/bullshitPackage/blah.json"));
+            Object obj = parser.parse(new FileReader("C:/blah.json"));
             JSONObject jsonObject = (JSONObject) obj;
             nekot = (String) jsonObject.get("tokenAF");
 
