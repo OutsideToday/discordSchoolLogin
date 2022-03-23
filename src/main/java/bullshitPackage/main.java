@@ -3,16 +3,15 @@ package bullshitPackage;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
-
 import io.github.bonigarcia.wdm.WebDriverManager;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,7 +20,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -91,8 +89,6 @@ public class main {
             resultSet = pStatement.executeQuery();
 
             while (resultSet.next()) {
-
-
                 String name = resultSet.getString("name");
                 String email = resultSet.getString("email");
                 String discordID = resultSet.getString("discordID");
@@ -100,8 +96,8 @@ public class main {
                 discordIDs.add(discordID);
                 emails.add(email);
                 System.out.println(name + ": added to List");
-
             }
+
             System.out.println(names);
             System.out.println(emails);
             System.out.println(discordIDs);
@@ -250,8 +246,14 @@ public class main {
         api.getPresence().setActivity(Activity.playing(">info"));
 
         api.addEventListener(new Commands());
+        api.addEventListener(new toDo());
         api.upsertCommand("bleach", "clean yo screen of the filth FOOL, Matt you also a bitch").queue();
         api.upsertCommand("signup", "Sign up for the submissions :)").queue();
+        api.upsertCommand("addtodo", "Add an item to the discord TO-DO list")
+                .addOption(OptionType.INTEGER,
+                        "howmany",
+                        "Enter a number of how many items to add to the list!",
+                        true).queue();
 
         Thread sleepFormThread = new Thread(new getSleepTime());
 
