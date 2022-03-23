@@ -109,7 +109,7 @@ public class toDo extends ListenerAdapter {
         //check to make sure it wasn't the bots own reaction
         if (event.getReaction().isSelf()) return;
 
-        if (message.getAuthor().getIdLong() == 955490875008512020L) {
+        if (message.getAuthor().getIdLong() == 868349557484978196L) {
             //deletes reaction that are on bots embed
             event.getReaction().removeReaction(event.getUser()).queue();
 

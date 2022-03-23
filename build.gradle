@@ -11,7 +11,6 @@ repositories {
     mavenCentral()
     maven{ url 'https://m2.dv8tion.net/releases'}
     maven{ url 'https://jitpack.io'}
-
 }
 
 dependencies {
@@ -19,7 +18,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation "com.github.Xirado:JDA:feature~modals"
     implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.2'
-    implementation"io.github.bonigarcia:webdrivermanager:5.1.0"
+    implementation "io.github.bonigarcia:webdrivermanager:5.1.0"
     implementation 'mysql:mysql-connector-java:8.0.28'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
     implementation 'com.vdurmont:emoji-java:5.1.1'
@@ -32,6 +31,5 @@ jar {
     manifest {
         attributes 'Main-Class': 'bullshitPackage.main'
     }
-
     exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
 }
