@@ -156,6 +156,7 @@ public class Commands extends ListenerAdapter {
             infoEmbed.addField("Commands",
                     "Currently\n" +
                             "/bleach\n" +
+                            "/addtodo\n"+
                             "/signup", false);
 
             event.getChannel().sendMessageEmbeds(infoEmbed.build()).queue();

@@ -72,10 +72,11 @@ public class toDo extends ListenerAdapter {
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(Color.GREEN);
             eb.setAuthor(event.getUser().getName());
+            System.out.println(randomIDs);
             //load items into embed
             for (int x = 0; x != randomIDs.size(); x++) {
                 //grabbing the items
-                String itemAdded = event.getValue(randomIDs.get(x)).getAsString();
+                String itemAdded = Objects.requireNonNull(event.getValue(randomIDs.get(x))).getAsString();
                 //adding the fields
                 eb.addField(":white_square_button: " + emojis.get(x), itemAdded, false);
             }
@@ -109,7 +110,7 @@ public class toDo extends ListenerAdapter {
         //check to make sure it wasn't the bots own reaction
         if (event.getReaction().isSelf()) return;
 
-        if (message.getAuthor().getIdLong() == 955490875008512020L) {
+        if (message.getAuthor().getIdLong() == 868349557484978196L) {
             //deletes reaction that are on bots embed
             event.getReaction().removeReaction(event.getUser()).queue();
 

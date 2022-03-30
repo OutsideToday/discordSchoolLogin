@@ -228,18 +228,17 @@ public class main {
     public static void main(String[] args) throws LoginException, InterruptedException {
         // grab the credsss
         JSONParser parser = new JSONParser();
-        String nekot = null;
+        String Token = null;
         try{
             Object obj = parser.parse(new FileReader("C:/blah.json"));
             JSONObject jsonObject = (JSONObject) obj;
-            nekot = (String) jsonObject.get("tokenAF");
+            Token = (String) jsonObject.get("tokenAF");
 
         }catch (Exception e){
             e.printStackTrace();
         }
-        final String notAnekoT = nekot;
 
-        api = JDABuilder.createDefault("ODY4" + notAnekoT).build();
+        api = JDABuilder.createDefault(Token).build();
 
         api.awaitReady();
 
