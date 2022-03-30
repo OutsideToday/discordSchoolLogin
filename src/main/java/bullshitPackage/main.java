@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -104,8 +106,6 @@ public class main {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
         //chroime driver shit
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Administrator\\Desktop\\driver\\chromedriver.exe");
         WebDriverManager.chromedriver().forceDownload();
@@ -117,9 +117,10 @@ public class main {
         //embed builder
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setTitle("Todays Submissions");
-        embedBuilder.setAuthor("OutsideToday");
-        embedBuilder.setImage("https://c.tenor.com/E0xOQmkgKE4AAAAC/betty-white-dab.gif");
+        embedBuilder.setThumbnail("https://i.ibb.co/XJMGWNV/gigChad.png");
         embedBuilder.setColor(Color.CYAN);
+
+        String fieldNames = "";
 
         //filling form shit per person in <names>
         for (int i = 0; i < names.size(); i++) {
@@ -145,11 +146,11 @@ public class main {
             }
 
             System.out.println("SUBMITTED FOR " + names.get(i));
-
-            embedBuilder.addField("Name", names.get(i), false);
-
+            fieldNames += names.get(i) + "\n";
             driver.navigate().refresh();
         }
+
+        embedBuilder.addField("Names", fieldNames, false);
         //output to defined text chanel
         if (submitBoolean == true) {
 
