@@ -6,8 +6,6 @@ import net.dv8tion.jda.api.JDABuilder;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -27,7 +25,6 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class main {
-    //hello jaheim
     static JDA api;
     public static String prefix = ">";
 
@@ -36,6 +33,7 @@ public class main {
     static ArrayList<String> names;
     static String classChannel = "945403061550075915";
     static String class2Channel = "877931131473903676";
+    static String class3Channel = "933412229410336773";
     static String testChannel = "945225775148322829";
     static TextChannel tableChannel;
 
@@ -153,13 +151,18 @@ public class main {
         embedBuilder.addField("Names", fieldNames, false);
         //output to defined text chanel
         if (submitBoolean == true) {
-
+            //class 1
             tableChannel = api.getTextChannelById(classChannel);
             tableChannel.sendMessageEmbeds(embedBuilder.build())
                     .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
                     .queue();
-
+            //class 2
             tableChannel = api.getTextChannelById(class2Channel);
+            tableChannel.sendMessageEmbeds(embedBuilder.build())
+                    .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
+                    .queue();
+            // it class
+            tableChannel = api.getTextChannelById(class3Channel);
             tableChannel.sendMessageEmbeds(embedBuilder.build())
                     .setActionRow(Button.secondary("addUser", "Sign Up!"), Button.danger("removeUser", "Remove Me"))
                     .queue();
